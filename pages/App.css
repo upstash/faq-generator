@@ -1,0 +1,45 @@
+.main {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+h1 {
+    margin: 10px;
+    font-size: 40px;
+    color: rgb(26, 119, 162);
+}
+
+.search {
+    width: 30%;
+}
+
+ul li {
+    font-size: 20px;
+} 
+
+label {
+    color: blue; /* Change the color of the label text */
+    font-size: 16px; /* Change the font size of the label text */
+  }
+  
+
+@media (prefers-color-scheme: dark) {
+    /* Styles for dark mode */
+    .search {
+      background-color: #fffefe; /* Example background color for dark mode */
+      color: #fff; /* Example text color for dark mode */
+    }
+  }
+  
+  @media (prefers-color-scheme: light) {
+    /* Styles for light mode */
+    .search {
+      background-color: #fff; /* Example background color for light mode */
+      color: #333; /* Example text color for light mode */
+    }
+  }
+  
