@@ -1,10 +1,6 @@
-# FAQ Generator
-
-The FAQ Generator is a tool designed to generate frequently asked questions (FAQs) from Markdown files stored in GitHub repositories. It leverages the power of OpenAI's GPT models to analyze the content of Markdown files and automatically generate questions and answers based on that content. The tool aims to reduce the workload of developers and make life easier for them.
-
 # Table of Contents
-- [FAQ Generator](#faq-generator)
 - [Table of Contents](#table-of-contents)
+- [FAQ Generator](#faq-generator)
   - [Features](#features)
   - [Installation](#installation)
   - [How to use the FAQ Generator?](#how-to-use-the-faq-generator)
@@ -12,6 +8,11 @@ The FAQ Generator is a tool designed to generate frequently asked questions (FAQ
   - [Caching](#caching)
   - [Deployment](#deployment)
   - [Conclusion](#conclusion)
+
+
+# FAQ Generator
+
+The FAQ Generator is a tool designed to generate frequently asked questions (FAQs) from Markdown files stored in GitHub repositories. It leverages the power of OpenAI's GPT models to analyze the content of Markdown files and automatically generate questions and answers based on that content. The tool aims to reduce the workload of developers and make life easier for them.
 
 ## Features
 
