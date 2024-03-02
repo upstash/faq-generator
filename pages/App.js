@@ -7,7 +7,7 @@ export default function App() {
   const [faq, setFaq] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  
+
   const inputHandler = async () => {
     try {
       setLoading(true);
@@ -23,7 +23,12 @@ export default function App() {
         body: JSON.stringify({ urls: urls }), // Send the urls array as part of a JSON object
       });
       const data = await response.json();
-      setFaq(data.faq);
+
+      if (data.error) {
+        setError(data.error);
+      } else {
+        setFaq(data.faq);
+      }
     } catch (error) {
       console.error("Error:", error);
       setError(
@@ -32,7 +37,25 @@ export default function App() {
     } finally {
       setLoading(false);
     }
-  };  
+  };
+
+  const convertToMarkdown = (faq) => {
+    let markdown = "";
+    faq.forEach((item, index) => {
+      if (item[0].match(/[0-9]/)) {
+        markdown += `### ${item}\n\n`;
+      } else {
+        markdown += `${item}\n\n`;
+      }
+    });
+    return markdown;
+  };
+
+  const handleCopyToClipboard = () => {
+    const markdown = convertToMarkdown(faq);
+    navigator.clipboard.writeText(markdown);
+  };
+
   return (
     <div className="main">
       <h1>FAQ GENERATOR</h1>
@@ -41,34 +64,50 @@ export default function App() {
           id="outlined-basic"
           multiline
           onChange={(e) => setUrl(e.target.value)}
+          rows={5}
+          maxRows={10}
           variant="filled"
           fullWidth
           label="Insert GitHub file links (one per line) and press the button to generate FAQ"
+          style={{ width: "100%", resize: "both" }}
         />
       </div>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={inputHandler}
-        style={{ marginLeft: "465px", marginTop: "-20px" }}
-      >
-        Generate
-      </Button>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={inputHandler}
+        >
+          Generate
+        </Button>
+      </div>
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
-      <ul>
-        {faq.map((item, index) => (
-          <li
-            key={index}
-            style={{
-              marginBottom: item[0].match(/[0-9]/) ? "0px" : "30px",
-              fontWeight: item[0].match(/[0-9]/) ? "bold" : "normal",
-            }}
+      {faq.length > 0 && (
+        <>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={handleCopyToClipboard}
+            style={{ marginTop: "10px" }}
           >
-            {item}
-          </li>
-        ))}
-      </ul>
+            Copy to Clipboard
+          </Button>
+          <ul>
+            {faq.map((item, index) => (
+              <li
+                key={index}
+                style={{
+                  marginBottom: item[0].match(/[0-9]/) ? "0px" : "30px",
+                  fontWeight: item[0].match(/[0-9]/) ? "bold" : "normal",
+                }}
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 }

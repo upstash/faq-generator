@@ -43,3 +43,15 @@ label {
     }
   }
   
+  .faq-container {
+    margin-top: 20px;
+  }
+  
+  .faq-item {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+  }

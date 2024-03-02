@@ -9,6 +9,7 @@
 /coverage
 /api/test.py
 /api/temp.txt
+/api/.env
 
 # next.js
 /.next/

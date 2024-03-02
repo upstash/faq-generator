@@ -6,7 +6,6 @@ import requests
 from openai import OpenAI
 from github import Github
 from urllib.parse import urlparse
-from markdown_it import MarkdownIt
 from dotenv import load_dotenv
 from concurrent.futures import ThreadPoolExecutor
 
@@ -38,6 +37,9 @@ RATE_LIMIT_MAX_REQUESTS = 10  # Maximum number of requests allowed per window
 
 def main(urls):    
     contents = get_contents(urls,GITHUB_ACCESS_TOKEN)
+    if contents == -1:
+        return -1
+    
     return generate_faq_multithreaded(contents)
 
 # parse the repo link into username and repo name parts
@@ -87,27 +89,36 @@ def get_contents(url_list, github_token = GITHUB_ACCESS_TOKEN):
     
     for url in url_list:
         content_info.append(url)
-        content_info.append(get_markdown_content(url,headers))
+        current_content = get_markdown_content(url, headers)
+        if current_content == -1:
+            return -1
+        
+        content_info.append(current_content)
         contents.append(content_info)
         content_info = []
           
     return contents
 
 # helper function to extract the info from json responses
-def get_markdown_content(file_url,headers):
-    response = requests.get(file_url, headers)
-    response.raise_for_status()
-    
-    if response.status_code == 200:
-        # Parse JSON data
-        json_data = response.json()
-        raw_lines = json_data["payload"]["blob"]["rawLines"]
-        text = "\n".join(raw_lines)
+def get_markdown_content(file_url, headers):
+    try:
+        response = requests.get(file_url, headers)
+        response.raise_for_status()
+
+        if response.status_code == 200:
+            # Parse JSON data
+            json_data = response.json()
+            raw_lines = json_data["payload"]["blob"]["rawLines"]
+            text = "\n".join(raw_lines)
+
+            # Extract text directly from JSON
+            return text
+        else:
+            # Handle invalid or missing markdown files
+            return None
         
-        # Extract text directly from JSON
-        return text
-    else:
-        return None
+    except requests.exceptions.RequestException as e:
+        return -1
 
 # function to chat with the openai api
 def chat(prompt,questions=""):
@@ -121,7 +132,8 @@ def chat(prompt,questions=""):
     message_history.append({"role": "user", "content": prompt})
     
     response = client.chat.completions.create(
-        model = "gpt-4-0125-preview",
+        # model = "gpt-4-0125-preview",
+        model = "gpt-3.5-turbo-0125",
         messages = message_history
     )
     return response
@@ -224,4 +236,3 @@ def string_to_list(faq,list):
         if not (item.isspace() or item == ""):
             list.append(item)
     return list
-

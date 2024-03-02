@@ -1,78 +1,99 @@
-<p align="center">
-  <a href="https://nextjs-flask-starter.vercel.app/">
-    <img src="https://assets.vercel.com/image/upload/v1588805858/repositories/vercel/logo.png" height="96">
-    <h3 align="center">Next.js Flask Starter</h3>
-  </a>
-</p>
+# FAQ Generator
 
-<p align="center">Simple Next.js boilerplate that uses <a href="https://flask.palletsprojects.com/">Flask</a> as the API backend.</p>
+The FAQ Generator is a tool designed to generate frequently asked questions (FAQs) from Markdown files stored in GitHub repositories. It leverages the power of OpenAI's GPT models to analyze the content of Markdown files and automatically generate questions and answers based on that content. The tool aims to reduce the workload of developers and make life easier for them.
 
-<br/>
+## Features
 
-## Introduction
+- Automatically generates FAQs from Markdown files.
+- Supports multiple Markdown files from different GitHub repositories.
+- Utilizes multithreading for efficient processing.
+- Implements rate limiting to prevent abuse of API resources.
+- Provides a user-friendly web interface for input and output.
 
-This is a hybrid Next.js + Python app that uses Next.js as the frontend and Flask as the API backend. One great use case of this is to write Next.js apps that use Python AI libraries on the backend.
+## Installation
 
-## How It Works
+If you want to examine the source code or change some things according to your needs, you can install it by following these steps:
 
-The Python/Flask server is mapped into to Next.js app under `/api/`.
+1. Clone the repository to your local machine:
+   ```bash
+   git clone https://github.com/upstash/faq-generator 
+   ```
 
-This is implemented using [`next.config.js` rewrites](https://github.com/vercel/examples/blob/main/python/nextjs-flask/next.config.js) to map any request to `/api/:path*` to the Flask API, which is hosted in the `/api` folder.
+2. Navigate to the project folder:
+   ```bash
+   cd faq-generator
+   ```
 
-On localhost, the rewrite will be made to the `127.0.0.1:5328` port, which is where the Flask server is running.
+3. Install the required dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-In production, the Flask server is hosted as [Python serverless functions](https://vercel.com/docs/concepts/functions/serverless-functions/runtimes/python) on Vercel.
+4. Now you need to set up environment variables by creating a .env file in the project root directory and adding the following variables:
+  
+  - GITHUB_ACCESS_TOKEN
+  - UPSTASH_HOST
+  - UPSTASH_PORT
+  - UPSTASH_PASSWORD 
+  - OPENAI_API_KEY
+  
+   
+   To set these variables, you need to have an account on [Upstash](https://console.upstash.com/login) and [OpenAI](https://auth0.openai.com/u/login/identifier?state=hKFo2SBJY3lhbWZGVmg1QU8zc0xYTi1TWEtKa1dWaTkwNUFGT6Fur3VuaXZlcnNhbC1sb2dpbqN0aWTZIEZhcUp2V0hkTUZlRm15aEZIX0lCNVV6NmdvaDZ3UXNio2NpZNkgRFJpdnNubTJNdTQyVDNLT3BxZHR3QjNOWXZpSFl6d0Q). After signing in to Upstash, you need to create a database. You can directly proceed with default settings, they are perfectly fine for our purposes. We will use this database to store generated FAQs.
 
-## Demo
+  Then, you need to log in to your OpenAI account and create an API key. The use of API isn't free, but OpenAI lets you use the API until you reach a certain amount (For today, the limit is 5 dollars. But I suggest you check it for possible changes). Once you have your API key, the only remaining variable is the GitHub token. You can generate one by navigating through developer settings. The token must access all fields related to repository actions, so don't forget the give necessary permissions while generating your token.
 
-https://nextjs-flask-starter.vercel.app/
 
-## Deploy Your Own
+5. As the last step, you can run the program on your local machine by entering this command into your console:
+   ```bash
+   npm run dev
+   ```
+   You can access the interface by navigating to http://localhost:3000 in your web browser.
 
-You can clone & deploy it to Vercel with one click:
+## How to use the FAQ Generator?
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-title=Next.js%20Flask%20Starter&demo-description=Simple%20Next.js%20boilerplate%20that%20uses%20Flask%20as%20the%20API%20backend.&demo-url=https%3A%2F%2Fnextjs-flask-starter.vercel.app%2F&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F795TzKM3irWu6KBCUPpPz%2F44e0c6622097b1eea9b48f732bf75d08%2FCleanShot_2023-05-23_at_12.02.15.png&project-name=Next.js%20Flask%20Starter&repository-name=nextjs-flask-starter&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Fnextjs-flask&from=vercel-examples-repo)
+The tool has a very simple interface. It has a search bar where the user enters the URLs and a generate button that initiates the backend process. Once the FAQs are generated, they will be displayed on the page. The user can copy the FAQs to the clipboard, in a markdown format.
 
-## Developing Locally
+## OpenAI Integration
+The main logic behind the idea of this tool and why developers would use it revolves around automating the process of generating FAQs from Markdown files hosted on GitHub repositories. To automate this process, we will use OpenAI's API.
 
-You can clone & create this repo with the following command
+The OpenAI API provides a chat-based interface, allowing developers to interact with language models to generate human-like responses. In this project, we provide the contents of Markdown files as input, and the API processes them. At first, it understands the content, then tries to detect the parts where users may struggle to understand the content and require assistance. Based on them, the API generates five FAQs for every single file.
 
-```bash
-npx create-next-app nextjs-flask --example "https://github.com/vercel/examples/tree/main/python/nextjs-flask"
-```
+When a user provides multiple URLs as a single input, the application processes each URL concurrently, leveraging multithreading. This means that instead of handling each URL sequentially, where one URL is processed after the other, the application initiates the processing of multiple URLs simultaneously. As a result of parallel processing, the overall time required to process all the URLs is significantly reduced.
 
-## Getting Started
+## Caching
 
-First, install the dependencies:
+The generated FAQs, along with their associated metadata (such as the latest commit ID), are cached in Upstash. This caching mechanism enables quick retrieval of previously generated FAQs for specific URLs without the need to regenerate them every time. By storing FAQs in Upstash, the application reduces the overhead of repetitive computations and improves response times when users request FAQs for URLs that have been previously processed.
 
-```bash
-npm install
-# or
-yarn
-# or
-pnpm install
-```
+Upstash is also used to implement rate-limiting functionality, which restricts the number of requests a user can make within a specified time window. By storing rate-limiting information in Upstash, the application can efficiently track the number of requests made by each user and enforce rate limits accordingly. This helps prevent abuse or excessive usage of the application's resources, ensuring fair access for all users and maintaining system stability.
 
-Then, run the development server:
+## Deployment
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+We hosted our application on Vercel. It can be hosted anywhere that supports Next.js frontend and Flask backend. If you also want to use [Vercel](https://vercel.com/login), you'll need to create an account and follow these steps:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Install the Vercel Command Line Interface (CLI) tool globally on your machine using npm or yarn. This CLI tool allows you to deploy projects directly from your terminal.
+   ```bash
+   npm install -g vercel
+   # or
+   yarn global add vercel
+   ```
 
-The Flask server will be running on [http://127.0.0.1:5328](http://127.0.0.1:5328) – feel free to change the port in `package.json` (you'll also need to update it in `next.config.js`).
+2. Once the CLI is installed, log in to your Vercel account from the terminal using the following command:
+   ```bash
+   vercel login
+   ```
+3. Then, you can initialize your project. Navigate to your project directory and use the following command:
+   ```bash
+   vercel init
+   ```
+   This command will prompt you to link your project directory to a Vercel project. Follow the prompts to select your project and configure deployment settings.
 
-## Learn More
+4. Once the project is initialized, you can deploy it to Vercel. This command will start the deployment process and upload your project files to Vercel's servers. Once the deployment is complete, Vercel will provide you with a unique URL where your application is hosted.
+   ```bash
+   vercel --prod
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+As you can see, hosting your website on Vercel is a straightforward process. Even though Vercel originally offers frontend hosting servers,  its support for serverless functions enables you to effortlessly host your backend as well. Additionally, Vercel offers templates that serve as excellent starting points for your projects. In this project, I used [nextjs&flask template](https://vercel.com/templates/next.js/nextjs-flask-starter). You can find other templates on the resources page of the Vercel site.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [Flask Documentation](https://flask.palletsprojects.com/en/1.1.x/) - learn about Flask features and API.
+## Conclusion
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+In conclusion, the FAQ Generator tool provides a seamless solution for automatically generating frequently asked questions from markdown files. With its ability to process multiple URLs in parallel, integrate with Upstash for data storage, and deploy effortlessly on Vercel, the FAQ Generator simplifies the process of FAQ generation and enhances developer productivity. Additionally, this project is open to contributions from the community. If you have ideas for improvements, additional features, or bug fixes, feel free to contribute to the GitHub repository. Your contributions are valuable and can help make the FAQ Generator even more robust and useful for developers.

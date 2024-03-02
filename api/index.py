@@ -13,15 +13,17 @@ def hello_world():
 def generate_faq_route():   
     if request.method == 'POST':
         url = request.json.get('urls')
-        print(url)
         if url:
             try:
                 user_id = request.headers.get('User-Id')
-                # Check rate limit before processing the request
+
                 if rate_limit_exceeded(user_id):
                     return jsonify({'error': 'Rate limit exceeded. Try again later.'}), 429  # Return 429 status code for rate limit exceeded
             
                 faq = faq_generator(url)
+                if faq == -1:
+                    return jsonify({'error': 'Invalid URL is entered.'}), 400
+                
                 return jsonify({'faq': faq})
             
             except Exception as e:
