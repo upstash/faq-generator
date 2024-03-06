@@ -1,5 +1,5 @@
 {
-    "api/*.py": {
-      "timeout": 300
-    }
+  "api/*.py": {
+    "timeout": 300
   }
+}
