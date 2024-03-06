@@ -108,13 +108,15 @@ export default function Home() {
                   {...register(`links.${index}.url`)}
                   placeholder="https://github.com/user/repo/file.md"
                 />
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => remove(index)}
-                >
-                  <X className="size-4" />
-                </Button>
+                {fields.length > 1 && (
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => remove(index)}
+                  >
+                    <X className="size-4" />
+                  </Button>
+                )}
               </div>
             </div>
           );
