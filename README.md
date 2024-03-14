@@ -48,13 +48,13 @@ If you want to examine the source code or change some things according to your n
 4. Now you need to set up environment variables by creating a .env file in the project root directory and adding the following variables:
   
   - GITHUB_ACCESS_TOKEN
-  - UPSTASH_HOST
+  - UPSTASH_ENDPOINT
   - UPSTASH_PORT
   - UPSTASH_PASSWORD 
   - OPENAI_API_KEY
   
    
-   To set these variables, you need to have an account on [Upstash](https://console.upstash.com/login) and [OpenAI](https://auth0.openai.com/u/login/identifier?state=hKFo2SBJY3lhbWZGVmg1QU8zc0xYTi1TWEtKa1dWaTkwNUFGT6Fur3VuaXZlcnNhbC1sb2dpbqN0aWTZIEZhcUp2V0hkTUZlRm15aEZIX0lCNVV6NmdvaDZ3UXNio2NpZNkgRFJpdnNubTJNdTQyVDNLT3BxZHR3QjNOWXZpSFl6d0Q). After signing in to Upstash, you need to create a database. You can directly proceed with default settings, they are perfectly fine for our purposes. We will use this database to store generated FAQs.
+   To set these variables, you need to have an account on [Upstash](https://console.upstash.com/login) and [OpenAI](https://auth0.openai.com/u/login/identifier?state=hKFo2SBJY3lhbWZGVmg1QU8zc0xYTi1TWEtKa1dWaTkwNUFGT6Fur3VuaXZlcnNhbC1sb2dpbqN0aWTZIEZhcUp2V0hkTUZlRm15aEZIX0lCNVV6NmdvaDZ3UXNio2NpZNkgRFJpdnNubTJNdTQyVDNLT3BxZHR3QjNOWXZpSFl6d0Q). After signing in to Upstash, you need to create a database. You should enable TLS while creating your database, other than that you can proceed with default settings, they are perfectly fine for our purposes. We will use this database to store generated FAQs.
 
   Then, you need to log in to your OpenAI account and create an API key. The use of API isn't free, but OpenAI lets you use the API until you reach a certain amount (For today, the limit is 5 dollars. But I suggest you check it for possible changes). Once you have your API key, the only remaining variable is the GitHub token. You can generate one by navigating through developer settings. The token must access all fields related to repository actions, so don't forget the give necessary permissions while generating your token.
 
