@@ -16,6 +16,8 @@ The FAQ Generator is a tool designed to generate frequently asked questions (FAQ
 
 [The Demo App](https://faq-gen.vercel.app)
 
+[The Demo Video](demo.mp4)
+
 ## Features
 
 - Automatically generates FAQs from Markdown files.
