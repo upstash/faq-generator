@@ -14,6 +14,8 @@
 
 The FAQ Generator is a tool designed to generate frequently asked questions (FAQs) from Markdown files stored in GitHub repositories. It leverages the power of OpenAI's GPT models to analyze the content of Markdown files and automatically generate questions and answers based on that content. The tool aims to reduce the workload of developers and make life easier for them.
 
+[The Demo](https://faq-gen.vercel.app)
+
 ## Features
 
 - Automatically generates FAQs from Markdown files.
