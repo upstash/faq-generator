@@ -16,7 +16,7 @@ The FAQ Generator is a tool designed to generate frequently asked questions (FAQ
 
 [The Demo App](https://faq-gen.vercel.app)
 
-[The Demo Video](demo.mp4)
+https://github.com/upstash/faq-generator/assets/234086/c7359e19-6d17-433b-902c-f1a2eaa09090
 
 ## Features
 
