@@ -2,6 +2,7 @@ import json
 import os
 import re
 import redis
+import ssl
 import requests
 from openai import OpenAI
 from github import Github
@@ -19,15 +20,17 @@ GITHUB = Github(GITHUB_ACCESS_TOKEN)
 GITHUB_API_BASE = "https://api.github.com/repos/"
 
 # initialize database variables
-UPSTASH_HOST = os.getenv("UPSTASH_HOST")  
+UPSTASH_ENDPOINT = os.getenv("UPSTASH_ENDPOINT")  
 UPSTASH_PORT = int(os.getenv("UPSTASH_PORT"))
 UPSTASH_PASSWORD = os.getenv("UPSTASH_PASSWORD")
 
 # initiliaze upstash connection
 upstash = redis.Redis(
-    host=UPSTASH_HOST,
+    host=UPSTASH_ENDPOINT,
     port=UPSTASH_PORT,
     password=UPSTASH_PASSWORD,
+    ssl=True,
+    ssl_cert_reqs=ssl.CERT_NONE
 )
 
 # initialize rate limiting variables
