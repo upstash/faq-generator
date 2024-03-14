@@ -48,7 +48,7 @@ If you want to examine the source code or change some things according to your n
 4. Now you need to set up environment variables by creating a .env file in the project root directory and adding the following variables:
   
   - GITHUB_ACCESS_TOKEN
-  - UPSTASH_HOST
+  - UPSTASH_ENDPOINT
   - UPSTASH_PORT
   - UPSTASH_PASSWORD 
   - OPENAI_API_KEY
