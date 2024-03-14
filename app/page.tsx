@@ -222,7 +222,10 @@ export default function Home() {
         </p>
 
         <p className="mt-6">
-          <a className="inline-flex" href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fupstash%2Ffaq-generator">
+          <a
+            className="inline-flex hover:bg-transparent"
+            href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fupstash%2Ffaq-generator&env=UPSTASH_HOST,UPSTASH_PASSWORD,UPSTASH_PORT,OPENAI_API_KEY,GITHUB_ACCESS_TOKEN&demo-title=FAQ%20Generator&demo-description=The%20FAQ%20Generator%20uses%20OpenAI's%20GPT%20models%20to%20create%20FAQs%20from%20Markdown%20files%20on%20GitHub.&demo-url=https%3A%2F%2Ffaq-gen.vercel.app"
+          >
             <img src="https://vercel.com/button" alt="Deploy with Vercel" />
           </a>
         </p>
