@@ -106,7 +106,7 @@ export default function Home() {
   };
 
   return (
-    <main className="py-10 px-6 max-w-screen-md mx-auto">
+    <main className="py-10 px-4 md:px-6 max-w-screen-md mx-auto">
       <header>
         <h1 className="text-3xl font-semibold md:text-4xl">FAQ Generator</h1>
         <p className="mt-2">
@@ -220,6 +220,13 @@ export default function Home() {
           </a>
           .
         </p>
+
+        <p className="mt-6">
+          <a className="inline-flex" href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fupstash%2Ffaq-generator">
+            <img src="https://vercel.com/button" alt="Deploy with Vercel" />
+          </a>
+        </p>
+
         <p className="mt-6">
           <a
             href="https://github.com/upstash/faq-generator"
