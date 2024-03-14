@@ -19,7 +19,6 @@ import {
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { dummyData } from "lib/const";
 
 const schema = z.object({
   links: z.array(
@@ -185,7 +184,7 @@ export default function Home() {
             <Button
               className={cn(
                 "gap-2 transition-colors",
-                hasCopy && "!bg-emerald-500 text-white",
+                hasCopy && "!bg-emerald-500 !text-white",
               )}
               onClick={handleCopyToClipboard}
             >
