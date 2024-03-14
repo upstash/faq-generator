@@ -5,9 +5,10 @@ import { Button } from "components/ui/button";
 import { Input } from "components/ui/input";
 import { Alert, AlertTitle } from "components/ui/alert";
 import copy from "copy-to-clipboard";
-import { convertToMarkdown } from "lib/utils";
+import { cn, convertToMarkdown } from "lib/utils";
 import {
   AlertCircle,
+  Check,
   Copy,
   Loader2,
   Plus,
@@ -33,13 +34,8 @@ type Schema = z.infer<typeof schema>;
 export default function Home() {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<string>();
-  const [faq, setFaq] = React.useState<string[][]>(() => {
-    if (process.env.NODE_ENV === "development") {
-      return dummyData.faq;
-    } else {
-      return [];
-    }
-  });
+  const [faq, setFaq] = React.useState<string[][]>([]);
+  const [hasCopy, setHasCopy] = React.useState<boolean>(false);
 
   const { control, register, handleSubmit } = useForm<Schema>({
     resolver: zodResolver(schema),
@@ -103,6 +99,10 @@ export default function Home() {
   const handleCopyToClipboard = () => {
     const markdown = convertToMarkdown(faq);
     copy(markdown);
+    setHasCopy(true);
+    setTimeout(() => {
+      setHasCopy(false);
+    }, 1000);
   };
 
   return (
@@ -182,8 +182,18 @@ export default function Home() {
       {faq.length > 0 && (
         <div className="mt-10">
           <div className="flex items-center gap-2">
-            <Button className="gap-2" onClick={handleCopyToClipboard}>
-              <Copy className="size-4" />
+            <Button
+              className={cn(
+                "gap-2 transition-colors",
+                hasCopy && "!bg-emerald-500 text-white",
+              )}
+              onClick={handleCopyToClipboard}
+            >
+              {hasCopy ? (
+                <Check className="size-4" />
+              ) : (
+                <Copy className="size-4" />
+              )}
               Copy to Clipboard
             </Button>
 
@@ -224,7 +234,7 @@ export default function Home() {
         <p className="mt-6">
           <a
             className="inline-flex hover:bg-transparent"
-            href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fupstash%2Ffaq-generator&env=UPSTASH_HOST,UPSTASH_PASSWORD,UPSTASH_PORT,OPENAI_API_KEY,GITHUB_ACCESS_TOKEN&demo-title=FAQ%20Generator&demo-description=The%20FAQ%20Generator%20uses%20OpenAI's%20GPT%20models%20to%20create%20FAQs%20from%20Markdown%20files%20on%20GitHub.&demo-url=https%3A%2F%2Ffaq-gen.vercel.app"
+            href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fupstash%2Ffaq-generator&env=UPSTASH_ENDPOINT,UPSTASH_PASSWORD,UPSTASH_PORT,OPENAI_API_KEY,GITHUB_ACCESS_TOKEN&demo-title=FAQ%20Generator&demo-description=The%20FAQ%20Generator%20uses%20OpenAI's%20GPT%20models%20to%20create%20FAQs%20from%20Markdown%20files%20on%20GitHub.&demo-url=https%3A%2F%2Ffaq-gen.vercel.app"
           >
             <img src="https://vercel.com/button" alt="Deploy with Vercel" />
           </a>
