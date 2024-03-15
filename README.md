@@ -14,6 +14,8 @@
 
 The FAQ Generator is a tool designed to generate frequently asked questions (FAQs) from Markdown files stored in GitHub repositories. It leverages the power of OpenAI's GPT models to analyze the content of Markdown files and automatically generate questions and answers based on that content. The tool aims to reduce the workload of developers and make life easier for them.
 
+<a class="inline-flex hover:bg-transparent" href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fupstash%2Ffaq-generator&amp;env=UPSTASH_ENDPOINT,UPSTASH_PASSWORD,UPSTASH_PORT,OPENAI_API_KEY,GITHUB_ACCESS_TOKEN&amp;demo-title=FAQ%20Generator&amp;demo-description=The%20FAQ%20Generator%20uses%20OpenAI's%20GPT%20models%20to%20create%20FAQs%20from%20Markdown%20files%20on%20GitHub.&amp;demo-url=https%3A%2F%2Ffaq-gen.vercel.app"><img src="https://vercel.com/button" alt="Deploy with Vercel"></a>
+
 [The Demo App](https://faq-gen.vercel.app)
 
 https://github.com/upstash/faq-generator/assets/234086/c7359e19-6d17-433b-902c-f1a2eaa09090
